@@ -1,0 +1,80 @@
+doctype html
+html(lang='it')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    link(rel='stylesheet' href='css/bootstrap.min.css')
+    link(rel='stylesheet' href='css/navbar.css')
+    link(rel='stylesheet' href='css/style.css')
+    link(rel='stylesheet' href='css/select2.min.css')
+    link(rel='stylesheet' 
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
+         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" 
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer")
+    block title
+      title YGO Deck Builder
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark.navbar-bg.container-fluid
+      a.navbar-brand(href='#') YGO Deck Builder
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+          li.nav-item
+            a.nav-link.active(aria-current='page' href='#') Home
+          li.nav-item
+            a.nav-link(href='#') Crea deck
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+              i.fas.fa-user
+              |  Profilo
+            ul.dropdown-menu(aria-labelledby='navbarDropdown')
+              li
+                a.dropdown-item(href='#')
+                  i.fas.fa-cog
+                  |  Impostazioni
+              li
+                hr.dropdown-divider
+              li
+                a.dropdown-item(href='#')
+                  i.fas.fa-sign-out-alt
+                  |  Logout
+        div.d-flex.my-auto
+          select(id='cerca-nome-carta' style="min-width:300px")
+    block content
+
+    script(src='js/bootstrap.min.js')
+    script(src='js/jquery.min.js')
+    script(src='js/select2.min.js')
+    script.
+      $(document).ready(function() {
+        $('#cerca-nome-carta').select2({
+          placeholder: "Cerca carta",
+          minimumInputLength: 3,
+          ajax: {
+            url: '/api/searchCard',
+            dataType: 'json',
+            data:function (params) {
+              var query = {
+                term: params.term,
+              }
+              return query;
+            },
+            processResults: function (data) {
+              return {
+                results: data
+              };
+            },
+          },
+          escapeMarkup: function(markup) {
+            return markup;
+          },
+          templateResult: function(data) {
+            return data.html;
+          },
+          templateSelection: function(data) {
+            return data.text;
+          }
+        });
+      });

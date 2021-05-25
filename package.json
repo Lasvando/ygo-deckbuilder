@@ -1,0 +1,25 @@
+{
+  "name": "deckBuilder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "jquery": "^3.6.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.7",
+    "pug": "^3.0.2",
+    "select2": "^4.1.0-rc.0",
+    "sequelize": "^6.6.2"
+  }
+}
