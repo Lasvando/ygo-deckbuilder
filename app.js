@@ -2,9 +2,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+var bodyParser = require('body-parser')
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.set('views', path.join(__dirname, 'Pages'));
+
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(express.json()); //Parse URL-encoded bodies
 
 //Middleware di logging
 app.use(morgan("common"));
@@ -22,9 +31,11 @@ app.set('view engine', 'pug')
 
 //Route Import
 const indexRoute = require(path.join(__dirname, 'Routes/indexRoute'));
+const cardDetailRoute = require(path.join(__dirname, 'Routes/cardDetailRoute'));
 
 //Route Use
 app.use('/', indexRoute);
+app.use('/', cardDetailRoute);
 
 //API Import
 const searchCardAPI = require(path.join(__dirname, 'Api/searchCard'));

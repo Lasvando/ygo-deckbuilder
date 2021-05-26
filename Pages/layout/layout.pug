@@ -3,10 +3,10 @@ html(lang='it')
   head
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    link(rel='stylesheet' href='css/bootstrap.min.css')
-    link(rel='stylesheet' href='css/navbar.css')
-    link(rel='stylesheet' href='css/style.css')
-    link(rel='stylesheet' href='css/select2.min.css')
+    link(rel='stylesheet' href='/css/bootstrap.min.css')
+    link(rel='stylesheet' href='/css/navbar.css')
+    link(rel='stylesheet' href='/css/style.css')
+    link(rel='stylesheet' href='/css/select2.min.css')
     link(rel='stylesheet' 
          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" 
@@ -16,13 +16,13 @@ html(lang='it')
       title YGO Deck Builder
   body
     nav.navbar.navbar-expand-lg.navbar-dark.navbar-bg.container-fluid
-      a.navbar-brand(href='#') YGO Deck Builder
+      a.navbar-brand(href='/') YGO Deck Builder
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.me-auto.mb-2.mb-lg-0
           li.nav-item
-            a.nav-link.active(aria-current='page' href='#') Home
+            a.nav-link.active(aria-current='page' href='/') Home
           li.nav-item
             a.nav-link(href='#') Crea deck
           li.nav-item.dropdown
@@ -40,18 +40,28 @@ html(lang='it')
                 a.dropdown-item(href='#')
                   i.fas.fa-sign-out-alt
                   |  Logout
-        div.d-flex.my-auto
-          select(id='cerca-nome-carta' style="min-width:300px")
+    div.w-100.d-flex.justify-content-center.p-2
+      select(id='cerca-nome-carta' style="min-width:350px")
+    .loader-overlay
+      .lds-ring.centered
+        div
+        div
+        div
+        div
+      div.loader-text
     block content
 
-    script(src='js/bootstrap.min.js')
-    script(src='js/jquery.min.js')
-    script(src='js/select2.min.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.min.js')
+    script(src='/js/select2.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/it.min.js' integrity='sha512-WNdUVRBWbxwszj3CSXpo4+4oIvpiKsR0aA2KztNeOgvZSOn+ztN5bVXuMRlKzNAN59qcYglLnjXkz6lT9xdw6A==' crossorigin='anonymous' referrerpolicy='no-referrer')
+
     script.
       $(document).ready(function() {
         $('#cerca-nome-carta').select2({
+          language: "it",
           placeholder: "Cerca carta",
-          minimumInputLength: 3,
+          minimumInputLength: 4,
           ajax: {
             url: '/api/searchCard',
             dataType: 'json',
@@ -77,4 +87,41 @@ html(lang='it')
             return data.text;
           }
         });
+      });
+      $('#cerca-nome-carta').on('select2:select', function (e) {
+        var data = e.params.data;
+        $('.loader-overlay').toggle();
+        $('.container').toggle();
+
+        var loaderText = "";
+        var counter = 0;
+
+        $('.loader-text').text('Caricamento..');
+        $('.loader-text').fadeIn();
+
+        setInterval(() => {
+          $('.loader-text').fadeOut();
+          switch(counter) {
+            case 3:
+              loaderText = "Caricamento.."
+              break;
+            case 0:
+              loaderText = "Un attimo.."
+              break;
+            case 1:
+              loaderText = "Lentoh.."
+              break;
+            case 2:
+              loaderText = "Quasi fatto.."
+              break;
+            default:
+              // code block
+          } 
+          $('.loader-text').text(loaderText);
+          $('.loader-text').fadeIn();
+          counter++;
+          if(counter > 3) counter = 0;
+        }, 3000)
+
+        location.replace('/detail/' + data.id);
       });
