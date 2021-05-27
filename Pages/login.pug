@@ -1,0 +1,45 @@
+extends ./layout/layout.pug
+
+block title
+  title Login
+
+block content
+  .container.centered
+    .card.shadow.p-3.mb-5.bg-white.rounded
+        .card-body
+            h5.card-title.text-center Login
+            form(action='/api/login' method='POST' id='login-form')
+                .mb-3
+                    label.form-label(for='username')
+                        i.fas.fa-user
+                        |  Username
+                    input#username.form-control(type='text' name='username' placeholder='Username')
+                    p(class='username text-danger fw-bold' style="font-size:14px")
+                .mb-3
+                    label.form-label(for='password')
+                        i.fas.fa-key
+                        |  Password
+                    input#password.form-control(type='password' name='password' placeholder='Password')
+                    p(class='password text-danger fw-bold' style="font-size:14px")
+                button.btn.btn-primary.w-100(type='submit') Login
+                a.btn.btn-link.w-100(type='button' href='/login') Nuovo utente? Registrati
+                p(class='error text-danger fw-bold text-center' style="font-size:14px")
+    script.
+        // wait for the DOM to be loaded
+        $(function() {
+            $('#login-form').ajaxForm({
+                success: function(response) {
+                    location.replace('/')
+                },
+                error: function(response) {
+                    var data = response.responseJSON;
+                    var errors = data.errors;
+                    $('.username').text('');
+                    $('.password').text('');
+                    $('.conferma-password').text('');
+                    for(i = 0; i < errors.length; i++){
+                        $(`.${errors[i].param}`).text(errors[i].msg);
+                    }
+                }
+            });
+        })
