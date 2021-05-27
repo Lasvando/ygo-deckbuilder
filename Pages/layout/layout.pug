@@ -21,26 +21,27 @@ html(lang='it')
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
-        ul.navbar-nav.me-auto.mb-2.mb-lg-0
-          li.nav-item
-            a.nav-link.active(aria-current='page' href='/') Home
-          li.nav-item
-            a.nav-link(href='#') Crea deck
-          li.nav-item.dropdown
-            a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
-              i.fas.fa-user
-              |  Profilo
-            ul.dropdown-menu(aria-labelledby='navbarDropdown')
-              li
-                a.dropdown-item(href='#')
-                  i.fas.fa-cog
-                  |  Impostazioni
-              li
-                hr.dropdown-divider
-              li
-                a.dropdown-item(href='#')
-                  i.fas.fa-sign-out-alt
-                  |  Logout
+        if session.username
+          ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            li.nav-item
+              a.nav-link.active(aria-current='page' href='/') Home
+            li.nav-item
+              a.nav-link(href='#') Crea deck
+            li.nav-item.dropdown
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                i.fas.fa-user
+                |  Profilo
+              ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                li
+                  a.dropdown-item(href='#')
+                    i.fas.fa-cog
+                    |  Impostazioni
+                li
+                  hr.dropdown-divider
+                li
+                  a.dropdown-item(href='/logout')
+                    i.fas.fa-sign-out-alt
+                    |  Logout
     div.w-100.d-flex.justify-content-center.p-2
       select(id='cerca-nome-carta' style="min-width:350px")
     .loader-overlay
@@ -49,7 +50,6 @@ html(lang='it')
         div
         div
         div
-      div.loader-text
     block content
 
     script(src='/js/bootstrap.min.js')
@@ -93,36 +93,6 @@ html(lang='it')
         var data = e.params.data;
         $('.loader-overlay').toggle();
         $('.container').toggle();
-
-        var loaderText = "";
-        var counter = 0;
-
-        $('.loader-text').text('Caricamento..');
-        $('.loader-text').fadeIn();
-
-        setInterval(() => {
-          $('.loader-text').fadeOut();
-          switch(counter) {
-            case 3:
-              loaderText = "Caricamento.."
-              break;
-            case 0:
-              loaderText = "Un attimo.."
-              break;
-            case 1:
-              loaderText = "Lentoh.."
-              break;
-            case 2:
-              loaderText = "Quasi fatto.."
-              break;
-            default:
-              // code block
-          } 
-          $('.loader-text').text(loaderText);
-          $('.loader-text').fadeIn();
-          counter++;
-          if(counter > 3) counter = 0;
-        }, 3000)
 
         location.replace('/detail/' + data.id);
       });

@@ -8,6 +8,13 @@ const { sequelize } = require('./models')
 const app = express();
 const port = process.env.PORT || 3000;
 
+//Dynamic Helper per usare degli helper nei pug
+require('express-dynamic-helpers-patch')(app);
+app.dynamicHelpers({
+  session: function (request, res) {
+    return request.session;
+  }
+});
 //Sessions
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -62,7 +69,7 @@ app.use("/", searchCardAPI);
 
 
 app.listen(port, async () => {
-    await sequelize.sync({ alter:true });
-    console.log('Database sincronizzato');
-    console.log(`Server is running on http://localhost:${port}`);
+  await sequelize.sync({ alter: true });
+  console.log('Database sincronizzato');
+  console.log(`Server is running on http://localhost:${port}`);
 });
