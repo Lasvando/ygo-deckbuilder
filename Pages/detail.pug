@@ -1,0 +1,95 @@
+extends ./layout/layout.pug
+
+
+block title
+    title Dettaglio carta
+
+block content 
+    .container.mt-4
+        each val in card
+            .card.shadow.p-3.mb-5.bg-white.rounded
+                .card-body
+                    h4.card-title.text-center.mb-4= val.name
+                    .row.mt-3
+                        .col-md.text-center
+                            img.w-75(src=`${val.card_images[0].image_url}` alt=`${val.name}`)
+                        .col-md.mt-4
+                            .row.mb-2 
+                                .col-md
+                                    .mb-2
+                                        label.form-label.fw-bold(for='nome-carta') Nome
+                                        p.fst-italic#nome-carta= val.name
+                                .col-md
+                                    .mb-2
+                                        label.form-label.fw-bold(for='tipo-carta') Tipo
+                                        p.fst-italic#tipo-carta= val.type                            
+                            .mb-2
+                                label.form-label.fw-bold(for='effetto-carta') Effetto
+                                p.fst-italic#effetto-carta= val.desc
+                            if val.atk
+                                .mb-2
+                                    .row
+                                        .col.text-center
+                                            p.fst-italic= val.atk
+                                                span.fw-bold  ATK
+                                        .col.text-center
+                                            p.fst-italic= val.def
+                                                span.fw-bold  DEF                                           
+                            .row.mb-2 
+                                if val.level
+                                    .col-md.text-center
+                                        label.form-label.fw-bold(for='livello-carta') Livello
+                                        p.fst-italic#livello-carta= val.level
+                                .col-md.text-center
+                                    label.form-label.fw-bold(for='razza-carta') Razza
+                                    p.fst-italic#razza-carta= val.race
+                                if val.archetype
+                                    .col-md.text-center
+                                        label.form-label.fw-bold(for='archetipo-carta') Archetipo
+                                        p.fst-italic#archetipo-carta= val.archetype
+                                if val.attribute
+                                    .col-md.text-center
+                                        label.form-label.fw-bold(for='attributo-carta') Attributo
+                                        p.fst-italic#attributo-carta= val.attribute
+            .w-100.d-flex.justify-content-center
+                .card.shadow.p-3.mb-5.bg-white.rounded(style="max-width:500px")
+                    .card-body
+                        h4.card-title.text-center.mb-4 Altre informazioni
+                        .row.mt-3
+                            .col-md.text-center.mt-4
+                                .row
+                                    h5 Mercato
+                                    hr
+                                    each price,market in val.card_prices[0]
+                                        .row
+                                            .col-md.mb-2
+                                                p.form-label.d-flex.justify-content-between 
+                                                    span.fw-bold= market
+                                                    span.fst-italic#attributo-carta= price + '$'
+                                .row
+                                    h5 Dove trovarla
+                                    hr
+                                    style.
+                                        span{font-size:14px;}
+                                    each set in val.card_sets
+                                        .row
+                                            .col-md.mb-2
+                                                p.form-label.d-flex.justify-content-between 
+                                                    span.fw-bold Set
+                                                    span.fst-italic#attributo-carta= set.set_name
+                                        .row
+                                            .col-md.mb-2
+                                                p.form-label.d-flex.justify-content-between 
+                                                    span.fw-bold Codice Set
+                                                    span.fst-italic#attributo-carta= set.set_code
+                                        .row
+                                            .col-md.mb-2
+                                                p.form-label.d-flex.justify-content-between 
+                                                    span.fw-bold Rarità
+                                                    span.fst-italic#attributo-carta= set.set_rarity
+                                        .row
+                                            .col-md.mb-2
+                                                p.form-label.d-flex.justify-content-between 
+                                                    span.fw-bold Costo del set
+                                                    span.fst-italic#attributo-carta= set.set_price + '$'
+                                        hr
