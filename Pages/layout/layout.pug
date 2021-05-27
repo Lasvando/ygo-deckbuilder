@@ -12,6 +12,7 @@ html(lang='it')
          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" 
          crossorigin="anonymous"
          referrerpolicy="no-referrer")
+    script(src='/js/jquery.min.js')
     block title
       title YGO Deck Builder
   body
@@ -52,10 +53,10 @@ html(lang='it')
     block content
 
     script(src='/js/bootstrap.min.js')
-    script(src='/js/jquery.min.js')
     script(src='/js/select2.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/it.min.js' integrity='sha512-WNdUVRBWbxwszj3CSXpo4+4oIvpiKsR0aA2KztNeOgvZSOn+ztN5bVXuMRlKzNAN59qcYglLnjXkz6lT9xdw6A==' crossorigin='anonymous' referrerpolicy='no-referrer')
-
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js' integrity='sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn' crossorigin='anonymous')
+    
     script.
       $(document).ready(function() {
         $('#cerca-nome-carta').select2({
