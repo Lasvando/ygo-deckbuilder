@@ -53,4 +53,8 @@ router.post('/api/login',
         }
     })
 
+router.get('/logout', (request, response) => {
+    request.session.destroy();
+    response.redirect('/');
+})
 module.exports = router;

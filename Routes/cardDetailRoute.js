@@ -14,9 +14,11 @@ router.get('/detail/:cardId', (request, response) => {
         fetch(url, settings)
             .then(res => res.json())
             .then(cardDetail => {
-                var cards = cardDetail.data
-                if(cards.length > 1) response.status(404).send('Carta non trovata :(');
-                console.log(cards)
+                if(cardDetail.error){
+                    response.status(404).send('404 carta non trovata :(');
+                    return;
+                } 
+                var cards = cardDetail.data;
                 response.render(path.join(__dirname, '../Pages/detail'),{ "card": cards});
             })
 

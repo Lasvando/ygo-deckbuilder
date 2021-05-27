@@ -15,6 +15,7 @@
     "bootstrap": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-dynamic-helpers-patch": "0.0.2",
     "express-session": "^1.17.2",
     "express-validator": "^6.11.1",
     "jquery": "^3.6.0",
